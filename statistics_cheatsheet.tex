@@ -1,0 +1,1146 @@
+\documentclass[a4paper, 10pt,landscape]{article}
+\usepackage{palatino}
+\usepackage{multicol}
+\usepackage{calc}
+\usepackage{ifthen}
+\usepackage[landscape]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath, amssymb, amsthm}
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
+
+\usepackage{latexsym, marvosym}
+\usepackage{pifont}
+\usepackage{lscape}
+\usepackage{dsfont}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage[bottom]{footmisc}
+\usepackage{tikz}
+\usetikzlibrary{shapes}
+\usepackage{pdfpages}
+\usepackage{wrapfig}
+\usepackage{enumitem}
+\setlist[description]{leftmargin=0pt}
+\usepackage{xfrac}
+\usepackage[pdftex,
+            pdfauthor={Janus Advincula},
+            pdftitle={Fundamentals of Statistics},
+            pdfsubject={A cheatsheet pdf and reference guide made for MIT's 18.6501x course.},
+            pdfkeywords={statistics} {cheatsheet} {pdf} {cheat} {sheet} {formulas} {equations}
+            ]{hyperref}
+\usepackage[
+            open,
+            openlevel=2
+            ]{bookmark}
+\usepackage{relsize}
+\usepackage{rotating}
+
+ \newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+    \def\independenT#1#2{\mathrel{\setbox0\hbox{$#1#2$}%
+    \copy0\kern-\wd0\mkern4mu\box0}} 
+            
+\newcommand{\noin}{\noindent}    
+\newcommand{\logit}{\textrm{logit}} 
+\newcommand{\var}{\textrm{Var}}
+\newcommand{\cov}{\textrm{Cov}} 
+\newcommand{\corr}{\textrm{Corr}} 
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\Bern}{\textrm{Bern}}
+\newcommand{\Bin}{\textrm{Bin}}
+\newcommand{\Beta}{\textrm{Beta}}
+\newcommand{\Gam}{\textrm{Gamma}}
+\newcommand{\Expo}{\textrm{Expo}}
+\newcommand{\Pois}{\textrm{Pois}}
+\newcommand{\Unif}{\textrm{Unif}}
+\newcommand{\Geom}{\textrm{Geom}}
+\newcommand{\NBin}{\textrm{NBin}}
+\newcommand{\Hypergeometric}{\textrm{HGeom}}
+\newcommand{\HGeom}{\textrm{HGeom}}
+\newcommand{\Mult}{\textrm{Mult}}
+
+\geometry{top=.4in,left=.2in,right=.2in,bottom=.4in}
+
+\pagestyle{empty}
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%x
+                                {\normalfont\large\bfseries}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{0mm}%
+                                {-1explus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%
+                                {\normalfont\normalsize\bfseries}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {1ex plus .2ex}%
+                                {\normalfont\small\bfseries}}
+\makeatother
+
+\setcounter{secnumdepth}{0}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt plus 0.5ex}
+
+% -----------------------------------------------------------------------
+
+\usepackage{titlesec}
+
+\titleformat{\section}
+{\color{blue}\normalfont\large\bfseries}
+{\color{blue}\thesection}{1em}{}
+\titleformat{\subsection}
+{\color{violet}\normalfont\normalsize\bfseries}
+{\color{violet}\thesection}{1em}{}
+% Comment out the above 5 lines for black and white
+
+\begin{document}
+
+\raggedright
+\footnotesize
+\begin{multicols*}{3}
+
+% multicol parameters
+% These lengths are set only within the two main columns
+%\setlength{\columnseprule}{0.25pt}
+\setlength{\premulticols}{1pt}
+\setlength{\postmulticols}{1pt}
+\setlength{\multicolsep}{1pt}
+\setlength{\columnsep}{2pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% TITLE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{center}
+    {\color{blue} \Large{\textbf{18.6501x Fundamentals of Statistics}}} \\
+   % {\Large{\textbf{Probability Cheatsheet}}} \\
+    % comment out line with \color{blue} and uncomment above line for b&w
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% ATTRIBUTIONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\scriptsize
+
+This is a cheat sheet for statistics based on the online course given by Prof. Philippe Rigollet. Compiled by Janus B. Advincula.
+
+\begin{center}
+    Last Updated \today
+\end{center}
+
+% Cheatsheet format from
+% http://www.stdout.org/$\sim$winston/latex/
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% BEGIN CHEATSHEET
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{Introduction to Statistics}\smallskip \hrule height 1pt \smallskip
+
+\subsection{What is Statistics?}
+\begin{description}
+	\item[Statistical view] Data comes from a {\it random process}. The goal is to learn how this process works in order to make predictions or to understand what plays a role in it.
+\begin{center}
+	\includegraphics[width=0.6\columnwidth]{circle.pdf}
+\end{center}
+\end{description}
+
+\subsubsection{Statistics vs. Probability}
+\begin{description}
+	\item[Probability] Previous studies showed that the drug was 80\% effective. Then we can anticipate that for a study on 100 patients, in average 80 will be cured and at least 65 will be cured with 99.99\% chances.
+	\item[Statistics] Observe that $\frac{78}{100}$ patients were cured. We (will be able to) conclude that we are 95\% confident that for other studies, the drug will be effective on between 69.88\% and 86.11\% of patients.
+\end{description}
+\subsection{Probability Redux}
+Let $X_1,\dots,X_n$ be i.i.d. random variables with $\mathbb{E}\left[X\right]=\mu$ and $\var(X)=\sigma^2$.
+
+\begin{description}
+	\item[Law of Large Numbers] ~
+	\begin{equation*}
+	\overline{X}_n=\frac{1}{n}\sum_{i=1}^{n}X_i\quad\xrightarrow[n\rightarrow\infty]{\mathbb{P}, a.s.}\quad\mu.
+	\end{equation*}
+	\item[Central Limit Theorem] ~
+	\begin{equation*}
+		\sqrt{n}\frac{\overline{X}_n-\mu}{\sigma}\quad\xrightarrow[n\rightarrow\infty]{(d)}\quad\mathcal{N}(0,1).
+	\end{equation*}
+	Equivalently,
+	$$\sqrt{n}\left(\overline{X}_n-\mu\right)\quad\xrightarrow[n\rightarrow\infty]{(d)}\quad\mathcal{N}\left(0,\sigma^2\right).$$
+	\item[Hoeffding's Inequality] Let $n$ be a positive integer and $X, X_1,\dots X_n$ be i.i.d. random variables such that $\mathbb{E}\left[X\right]=\mu$ and $X\in\left[a,b\right]$ almost surely. Then, \begin{equation*}
+		\mathbb{P}\left(\left|\overline{X}_n-\mu\right|\geq\epsilon\right)\leq2e^{-\frac{2n\epsilon^2}{(b-a)^2}}\quad\forall\epsilon>0
+	\end{equation*}
+\end{description}
+\smallskip
+\subsubsection{The Gaussian Distribution}
+\begin{description}
+	\item Because of the CLT, the Gaussian (a.k.a. normal) distribution is ubiquitous in statistics.
+	\begin{itemize}
+		\item $X\sim\mathcal{N}\left(\mu,\sigma^2\right)$
+		\item $\mathbb{E}\left[X\right]=\mu$
+		\item $\var(X)=\sigma^2>0$
+	\end{itemize}
+	\item[Gaussian density] (PDF)
+	$$f_{\mu,\sigma^2}(x)=\frac{1}{\sigma\sqrt{2\pi}}\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)$$
+	\item[Useful Properties of Gaussian] ~
+
+	It is invariant under {\it affine transformation}.
+	\begin{itemize}
+	\item  If $X\sim\mathcal{N}\left(\mu,\sigma^2\right)$, then for any $a,b\in\mathbb{R}$,
+	$$aX+b\sim\mathcal{N}\left(a\mu+b,a^2\sigma^2\right).$$
+	\item {\bf Standardization:} If $X\sim\mathcal{N}\left(\mu,\sigma^2\right)$, then
+	$$Z=\dfrac{X-\mu}{\sigma}\sim\mathcal{N}\left(0,1\right)$$
+	We can compute probabilities from the CDF of $Z\sim\mathcal{N}\left(0,1\right)$:
+	$$\mathbb{P}\left(u\leq X\leq v\right)=\mathbb{P}\left(\dfrac{u-\mu}{\sigma}\leq Z\leq\dfrac{v-\mu}{\sigma}\right)$$
+	\item {Symmetry:} If $X\sim\mathcal{N}\left(0,\sigma^2\right)$, then $-X\sim\mathcal{N}\left(0,\sigma^2\right)$. If $x>0$,
+	$$\mathbb{P}\left(|X|>x\right)=\mathbb{P}\left(X>x\right)+\mathbb{P}\left(-X>x\right)=2\,\mathbb{P}\left(X>x\right)$$
+	\end{itemize}
+\item[Quantiles] Let $\alpha\in(0,1)$. The quantile of order $1-\alpha$ of a random variable $X$ is the number $q_\alpha$ such that $$\mathbb{P}\left(X\leq q_\alpha\right)=1-\alpha.$$
+\begin{center}
+	\includegraphics[width=0.4\columnwidth, trim={0 0.4cm 0 0.4cm}, clip]{quantile.pdf}
+\end{center}
+Let $F$ denote the CDF of $X$.
+\begin{itemize}
+	\item $F\left(q_\alpha\right)=1-\alpha$
+	\item If $F$ is invertible, then $q_\alpha=F^{-1}\left(1-\alpha\right)$
+	\item $\mathbb{P}\left(X>q_\alpha\right)=\alpha$
+	\item If $X\sim\mathcal{N}\left(0,1\right)$, $\mathbb{P}\left(|X|>q_{\alpha/2}\right)=\alpha$
+\end{itemize}
+\end{description}
+
+
+\subsubsection{Three Types of Convergence}
+\begin{description}
+	\item[Almost Surely (a.s.) Convergence] ~
+	\begin{equation*}
+		T_n\xrightarrow[n\rightarrow\infty]{a.s.}T\iff\mathbb{P}\left[\left\{\omega:T_n(\omega)\xrightarrow[n\rightarrow\infty]{}T(\omega)\right\}\right]=1
+	\end{equation*}
+	\item[Convergence in Probability] ~
+	\begin{equation*}
+		T_n\xrightarrow[n\rightarrow\infty]{\mathbb{P}}T\iff\mathbb{P}\left(\left|T_n-T\right|\geq\epsilon\right)\xrightarrow[n\rightarrow\infty]{}0\quad\forall\epsilon>0
+	\end{equation*}
+	\item[Convergence in Distribution] ~
+	\begin{equation*}
+	T_n\xrightarrow[n\rightarrow\infty]{(d)}T\iff\mathbb{E}\left[f\left(T_n\right)\right]\xrightarrow[n\rightarrow\infty]{}\mathbb{E}\left[f\left(T\right)\right]
+	\end{equation*}
+	for all continuous and bounded function $f$.
+\end{description}
+\subsubsection{Properties}
+\begin{itemize}
+	\item If $\left(T_n\right)_{n\geq1}$ converges a.s., then it also converges in probability, and the two limits are equal.
+	\item If $\left(T_n\right)_{n\geq1}$ converges in probability, then it also converges in distribution.
+	\item Convergence in distribution implies convergence in probability if the limit has a density (e.g. Gaussian):
+	\begin{equation*}
+		T_n\xrightarrow[n\rightarrow\infty]{(d)}T\quad\Rightarrow\quad\mathbb{P}\left(a\leq T_n\leq b\right)\xrightarrow[n\rightarrow\infty]{}\mathbb{P}\left(a\leq T\leq b\right)
+	\end{equation*}
+\end{itemize}
+
+\subsubsection{Addition, Multiplication, Division}
+Assume
+\begin{equation*}
+T_n\xrightarrow[n\rightarrow\infty]{a.s./\mathbb{P}}T\quad\text{and}\quad U_n\xrightarrow[n\rightarrow\infty]{a.s./\mathbb{P}}U.
+\end{equation*}
+\begin{itemize}
+	\item $T_n+U_n\xrightarrow[n\rightarrow\infty]{a.s./\mathbb{P}}T+U$
+	\item $T_nU_n\xrightarrow[n\rightarrow\infty]{a.s./\mathbb{P}}TU$
+	\item If, in addition, $U\neq0$ a.s., then $$\frac{T_n}{U_n}\xrightarrow[n\rightarrow\infty]{a.s./\mathbb{P}}\frac{T}{U}$$
+\end{itemize}
+\subsubsection{Slutsky's Theorem}
+Let ($X_n$), ($Y_n$) be two sequences of random variables such that $$(i)\; T_n\xrightarrow[n\rightarrow\infty]{(d)}T\quad\text{and}\quad(ii)\;U_n\xrightarrow[n\rightarrow\infty]{\mathbb{P}}u$$ where $T$ is a random variable and $u$ is a given real number. Then,
+\begin{itemize}
+	\item $T_n+U_n\xrightarrow[n\rightarrow\infty]{(d)}T+u$
+	\item $T_nU_n\xrightarrow[n\rightarrow\infty]{(d)}Tu$
+	\item If, in addition, $u\neq0$, then $\dfrac{T_n}{U_n}\xrightarrow[n\rightarrow\infty]{(d)}\dfrac{T}{u}$.
+\end{itemize}
+
+\subsubsection{Continuous Mapping Theorem}
+If $f$ is a continuous function, then $$T_n\xrightarrow[n\rightarrow\infty]{a.s./\mathbb{P}/(d)}T\quad\Rightarrow\quad f\left(T_n\right)\xrightarrow[n\rightarrow\infty]{a.s./\mathbb{P}/(d)}f\left(T\right).$$
+\section{Foundation of Inference} \smallskip \hrule height 1pt \smallskip
+
+\subsection{Statistical Model}
+
+Let the observed outcome of a statistical experiment be a {\it sample} $X_1,\dots,X_n$ of $n$ i.i.d. random variables in some measurable space $E$ (usually $E\subseteq\mathbb{R}$) and denote by $\mathbb{P}$ their common distribution. A {\it statistical model} associated to that statistical experiment is a {\it pair} $$\left(E,\left(\mathbb{P}_\theta\right)_{\theta\in\Theta}\right)$$ where
+\begin{itemize}
+	\item $E$ is called {\it sample space};
+	\item $\left(\mathbb{P}_\theta\right)_{\theta\in\Theta}$ is a family of probability measures on $E$;
+	\item  $\Theta$ is any set, called {\it parameter set}.
+\end{itemize}
+
+\subsubsection{Parametric, Nonparametric and Semiparametric Models}
+\begin{itemize}
+	\item Usually, we will assume that the statistical model is {\bf well-specified}, i.e., defined such that $\exists\theta$ such that $\mathbb{P}=\mathbb{P}_\theta$. This particular $\theta$ is called the {\bf true parameter} and is unknown.
+	\item We often assume that $\Theta\subseteq\mathbb{R}^d$ for some $d\geq1$. The model is called {\bf parametric}.
+	\item Sometimes we could have $\Theta$ be infinite dimensional, in which case the model is called {\bf nonparametric}.
+	\item If $\Theta=\Theta_1\times\Theta_2$, where $\Theta_1$ is finite dimensional and $\Theta_2$ is infinite dimensional, then we have a {\bf semiparametric} model. In these models, we only care to estimate the finite dimensional parameter and the infinite dimensional one is called {\bf nuisance parameter}.
+\end{itemize}
+\subsubsection{Identifiability}
+The parameter $\theta$ is called {\it identifiable} if and only if the map $\theta\in\Theta\mapsto\mathbb{P}_\theta$ is injective, i.e., $$\theta\neq \theta'\quad\implies\quad\mathbb{P}_\theta\neq\mathbb{P}_{\theta'}$$
+or equivalently, $$\mathbb{P}_\theta=\mathbb{P}_{\theta'}\quad\implies\quad\theta=\theta'.$$
+\subsection{Parameter Estimation}
+\begin{description}
+	\item[Statistic] Any {\it measurable} function of the sample, e.g., $\bar{X}_n$, $\max\limits_{i}X_i$, etc.
+	\item[Estimator of $\theta$] Any statistic whose expression does not depend on $\theta$
+	\item ~
+	\begin{itemize}
+		\item An estimator $\hat{\theta}_n$ of $\theta$ is weakly (resp.strongly) {\bf consistent} if $$\hat{\theta}_n\xrightarrow[n\rightarrow\infty]{\mathbb{P}\; (\text{resp. } a.s.)}\theta\quad(\text{w.r.t. } \mathbb{P}).$$
+		\item An estimator $\hat{\theta}_n$ of $\theta$ is {\bf asymptotically normal} if $$\sqrt{n}\left(\hat{\theta}_n-\theta\right)\xrightarrow[n\rightarrow\infty]{(d)}\mathcal{N}\left(0,\sigma^2\right)$$
+	\end{itemize}
+	\item[Bias of an Estimator] ~
+\begin{itemize}
+	\item {\bf Bias} of an estimator of $\hat{\theta}_n$ of $\theta$:
+	$$\text{bias}\left(\hat{\theta}_n\right)=\mathbb{E}\left[\hat{\theta}_n\right]-\theta$$
+	\item If $\text{bias}\left(\hat{\theta}_n\right)=0$, we say that $\hat{\theta}_n$ is {\bf unbiased}.
+\end{itemize}
+	\item[Jensen's Inequality] ~
+	\begin{itemize}
+		\item If the function $f(x)$ is convex, $$\mathbb{E}\left[f\left(X\right)\right]\geq f\left(\mathbb{E}\left[X\right]\right).$$
+		\item If the function $g(x)$ is concave, $$\mathbb{E}\left[g\left(X\right)\right]\leq g\left(\mathbb{E}\left[X\right]\right).$$
+	\end{itemize}
+	\item[Quadratic Risk] ~
+\begin{itemize}
+	\item We want estimators to have low bias and low variance at the same time.
+	\item The {\bf risk} (or {\bf quadratic risk}) of an estimator $\hat{\theta}_n\in\mathbb{R}$ is $$R\left(\hat{\theta}_n\right)=\mathbb{E}\left[\left|\hat{\theta}_n-\theta\right|^2\right]=\text{variance}+\text{bias}^2$$
+	\item Low quadratic risk means that both bias and variance are small.
+\end{itemize}
+\end{description}
+
+\subsection{Confidence Intervals}
+Let $\left(E,\left(\mathbb{P}_\theta\right)_{\theta\in\Theta}\right)$ be a statistical model based on observations $X_1,\dots,X_n$, and assume $\Theta\subseteq\mathbb{R}$. Let $\alpha\in(0,1).$
+\begin{itemize}
+	\item Confidence interval (C.I.) of level $1-\alpha$ for $\theta$: Any random (depending on $X_1,\dots,X_n$) interval $\mathcal{I}$ whose boundaries do not depend on $\theta$ and such that $$\mathbb{P}_\theta\left[\mathcal{I}\ni\theta\right]\geq1-\alpha,\quad\forall\theta\in\Theta.$$
+	\item C.I. of asymptotic level $1-\alpha$ for $\theta$: Any random interval $\mathcal{I}$ whose boundaries do not depend on $\theta$ and such that $$\lim\limits_{n\rightarrow\infty}\mathbb{P}_\theta\left[\mathcal{I}\ni\theta\right]\geq1-\alpha,\quad\forall\theta\in\Theta.$$
+\end{itemize}
+
+\begin{description}
+	\item[Example] We observe $R_1,\dots,R_n\stackrel{\text{iid}}{\sim}\text{Ber}(p)$ for some unknown $p\in(0,1)$.
+	\begin{itemize}
+		\item Statistical model: $\left(\{0,1\},\left(\text{Ber}(p)\right)_{p\in(0,1)}\right)$
+		\item From CLT:
+		$$\sqrt{n}\,\dfrac{\overline{R}_n-p}{\sqrt{p(1-p)}}\quad\xrightarrow[n\rightarrow\infty]{(d)}\quad\mathcal{N}(0,1)$$
+		\item It yields $$\mathcal{I}=\left[\overline{R}_n-\dfrac{q_{\frac{\alpha}{2}}\sqrt{p(1-p)}}{\sqrt{n}},\overline{R}_n+\dfrac{q_{\frac{\alpha}{2}}\sqrt{p(1-p)}}{\sqrt{n}}\right]$$
+		\item But this is {\bf not} a confidence interval because it depends on $p$!
+	\end{itemize}
+	\item[Three solutions:] ~
+	\begin{enumerate}
+		\item Conservative bound
+		\item Solving the (quadratic) equation for $p$
+		\item Plug-in
+	\end{enumerate}
+\end{description}
+
+\subsection{The Delta Method}
+Let $\left(Z_n\right)_{n\geq1}$ be a sequence of random variables that satisfies $$\sqrt{n}\left(Z_n-\theta\right)\quad\xrightarrow[n\rightarrow\infty]{(d)}\quad\mathcal{N}\left(0,\sigma^2\right)$$
+for some $\theta\in\mathbb{R}$ and $\sigma^2>0$ (the sequence $\left(Z_n\right)_{n\geq1}$ is said to be {\bf asymptotically normal around $\theta$}).
+\smallskip
+Let $g:\mathbb{R}\rightarrow\mathbb{R}$ be continuously differentiable at the point $\theta$. Then,
+\begin{itemize}
+	\item $\left(g\left(Z_n\right)\right)_{n\geq1}$ is also asymptotically normal around $g\left(\theta\right)$.
+	\item More precisely, $$\sqrt{n}\left(g\left(Z_n\right)-g\left(\theta\right)\right)\quad\xrightarrow[n\rightarrow\infty]{(d)}\quad\mathcal{N}\left(0,\left(g'(\theta)\right)^2\sigma^2\right).$$
+\end{itemize}
+
+\subsection{Introduction to Hypothesis Testing}
+
+\begin{description}
+	\item[Statistical Formulation] Consider a sample $X_1,\dots,X_n$ of i.i.d. random variables and a statistical model $\left(E,\left(\mathbb{P}_\theta\right)_{\theta\in\Theta}\right)$. Let $\Theta_0$ and $\Theta_1$ be disjoint subsets of $\Theta$.
+	\item Consider the two hypotheses:
+	\begin{itemize}
+		\item $H_0:$ $\theta\in\Theta_0$
+		\item $H_1:$ $\theta\in\Theta_1$
+	\end{itemize}
+	$H_0$ is the {\bf null hypothesis} and $H_1$ is the {\bf alternative hypothesis}.
+	\item[Asymmetry in the hypotheses] $H_0$ and $H_1$ do not play a symmetric role: the data is only used to try to disprove $H_0$. Lack of evidence does not mean that $H_0$ is true.
+	\item A test is a statistic $\psi\in\{0,1\}$ such that:
+	\begin{itemize}
+		\item If $\psi=0$, $H_0$ is not rejected.
+		\item If $\psi=1$, $H_0$ is rejected.
+	\end{itemize}
+	\item[Errors] ~
+	
+	\begin{itemize}
+		\item {\bf Rejection region} of a test $\psi$:
+		$$R_\psi=\left\{x\in E^n:\psi(x)=1\right\}.$$
+		\item {\bf Type 1 error} of a test $\psi$:
+		\begin{align*}
+			\alpha_\psi: \Theta_0\quad&\rightarrow\quad\mathbb{R}\quad(\text{or }[0,1])\\
+			\theta\quad&\mapsto\quad\mathbb{P}_\theta\left[\psi=1\right]
+		\end{align*}
+		\item {\bf Type 2 error} of a test $\psi$:
+				\begin{align*}
+		\beta_\psi: \Theta_1\quad&\rightarrow\quad\mathbb{R}\\
+		\theta\quad&\mapsto\quad\mathbb{P}_\theta\left[\psi=0\right]
+		\end{align*}
+		\item {\bf Power} of a test $\psi$:
+		$$\pi_\psi=\inf\limits_{\theta\in\Theta_1}\left(1-\beta_\psi(\theta)\right)$$
+	\end{itemize}
+	\item[Level, test statistic and rejection region] ~
+	\begin{itemize}
+		\item A test $\psi$ has level $\alpha$ if $$\alpha_\psi(\theta)\leq\alpha,\quad\forall\theta\in\Theta_0.$$
+		\item A test $\psi$ has asymptotic level $\alpha$ if $$\lim\limits_{n\rightarrow\infty}\alpha_\psi(\theta)\leq\alpha,\quad\forall\theta\in\Theta_0.$$
+		\item In general, a test has the form $$\psi=\mathds{1}\{T_n>c\}$$
+		for some statistic $T_n$ and threshold $c\in\mathbb{R}$. $T_n$ is called the {\bf test statistic}. The rejection region is $R_\psi=\{T_n>c\}$.
+	\end{itemize}
+	\item[$\mathbf{p}$-value] The (asymptotic) $p$-value of a test $\psi_\alpha$ is the smallest (asymptotic) level $\alpha$ at which $\psi_\alpha$ rejects $H_0$.
+\end{description}
+
+\section{Methods of Estimation}\smallskip \hrule height 1pt \smallskip
+
+\subsection{Total Variation Distance}
+
+\begin{description}
+	\item Let $\left(E,\left(\mathbb{P}_\theta\right)_{\theta\in\Theta}\right)$ be a statistical model associated with a sample of i.i.d. r.v. $X_1,\dots,X_n$. Assume that there exists $\theta^*\in\Theta$ such that $X_1\sim\mathbb{P}_{\theta^*}$.
+	\item[Statistician's goal:] Given $X_1,\dots,X_n$, find an estimator $\hat{\theta}=\hat{\theta}(X_1,\dots,X_n)$ such that $\mathbb{P}_{\hat{\theta}}$ is close to $\mathbb{P}_{\theta^*}$ for the true parameter $\theta^*$.
+	\item The {\bf total variation distance} between two probability measures $\mathbb{P}_\theta$ and $\mathbb{P}_{\theta'}$ is defined by $$\text{TV}\left(\mathbb{P}_\theta, \mathbb{P}_{\theta'}\right)=\max\limits_{A\subset E}\left|\mathbb{P}_\theta(A)-\mathbb{P}_{\theta'}(A)\right|$$
+	\item[Total Variation Distance between Discrete Measures] Assume that $E$ is discrete (i.e., finite or countable). The total variation distance between $\mathbb{P}_\theta$ and $\mathbb{P}_{\theta'}$ is
+	$$\text{TV}\left(\mathbb{P}_\theta,\mathbb{P}_{\theta'}\right)=\frac{1}{2}\sum_{x\in E}\left|p_\theta(x)-p_{\theta'}(x)\right|$$
+	\item[Total Variation Distance between Continuous Measures] Assume that $E$ is continuous. The total variation distance between $\mathbb{P}_\theta$ and $\mathbb{P}_{\theta'}$ is
+	$$\text{TV}\left(\mathbb{P}_\theta,\mathbb{P}_{\theta'}\right)=\frac{1}{2}\int\left|f_\theta(x)-f_{\theta'}(x)\right|dx$$
+	\item[Properties of Total Variation] ~
+	\begin{itemize}
+		\item $\text{TV}\left(\mathbb{P}_\theta,\mathbb{P}_{\theta'}\right)=\text{TV}\left(\mathbb{P}_{\theta'},\mathbb{P}_{\theta}\right)\qquad\qquad$\hspace*{1.25cm}{\bf symmetric}
+		\item $\text{TV}\left(\mathbb{P}_\theta,\mathbb{P}_{\theta'}\right)\geq0$, $\text{TV}\left(\mathbb{P}_\theta,\mathbb{P}_{\theta'}\right)\leq1\quad$\hspace*{1.2cm}{\bf positive}
+		\item If $\text{TV}\left(\mathbb{P}_\theta,\mathbb{P}_{\theta'}\right)=0$, then $\mathbb{P}_\theta=\mathbb{P}_{\theta'}\quad$\hspace*{1.3cm}{\bf definite}
+		\item $\text{TV}\left(\mathbb{P}_\theta,\mathbb{P}_{\theta'}\right)\leq\text{TV}\left(\mathbb{P}_{\theta},\mathbb{P}_{\theta''}\right)+\text{TV}\left(\mathbb{P}_{\theta''},\mathbb{P}_{\theta'}\right)\quad${\bf triangle inequality}
+	\end{itemize}
+These imply that the total variation is a {\bf distance} between probability distributions.
+\end{description}
+
+
+\subsection{Kullback-Leibler (KL) Divergence}
+
+\begin{description}
+	\item The Kullback-Leibler (KL) divergence between two probability measures $\mathbb{P}_\theta$ and $\mathbb{P}_{\theta'}$ is defined by
+	\[\text{KL}\left(\mathbb{P}_\theta,\mathbb{P}_{\theta'}\right)=
+	\begin{cases}
+		\sum\limits_{x\in E}p_\theta(x)\log\left(\dfrac{p_\theta(x)}{p_{\theta'}(x)}\right)\qquad\text{if $E$ is discrete}\\[10pt]
+		{\displaystyle\int_{E}}f_\theta(x)\log\left(\dfrac{f_\theta(x)}{f_{\theta'}(x)}\right)dx\qquad\text{if $E$ is continuous}
+	\end{cases}\]
+	KL-divergence is also known as {\bf relative entropy}.
+	\item[Properties of KL-divergence] ~
+	\begin{itemize}
+		\item $\text{KL}\left(\mathbb{P}_\theta,\mathbb{P}_{\theta'}\right)\neq\text{KL}\left(\mathbb{P}_{\theta'},\mathbb{P}_{\theta}\right)$ in general
+		\item $\text{KL}\left(\mathbb{P}_\theta,\mathbb{P}_{\theta'}\right)\geq0$
+		\item If $\text{KL}\left(\mathbb{P}_\theta,\mathbb{P}_{\theta'}\right)=0$, then $\mathbb{P}_\theta=\mathbb{P}_{\theta'}$ (definite)
+		\item $\text{KL}\left(\mathbb{P}_\theta,\mathbb{P}_{\theta'}\right)\nleq\text{KL}\left(\mathbb{P}_\theta,\mathbb{P}_{\theta''}\right)+\text{KL}\left(\mathbb{P}_{\theta''},\mathbb{P}_{\theta'}\right)$ in general
+	\end{itemize}
+\end{description}
+
+\subsection{Maximum Likelihood Estimation}
+
+\begin{description}
+	\item[Likelihood, Discrete Case] Let $\left(E,\left(\mathbb{P}_\theta\right)_{\theta\in\Theta}\right)$ be a statistical model associated with a sample of i.i.d. r.v. $X_1,\dots,X_n$. Assume that $E$ is discrete (i.e., finite or countable).
+	\item[Definition] The likelihood of the model is the map $L_n$ (or just $L$) defined as
+	\begin{align*}
+		L_n: E^n\times\Theta&\rightarrow\mathbb{R}\\
+		(x_1,\dots,x_n;\theta)&\mapsto\mathbb{P}_\theta\left[X_1=x_1,\dots,X_n=x_n\right]\\
+		&\qquad=\prod_{i=1}^{n}\mathbb{P}_\theta\left[X_i=x_i\right]
+	\end{align*}
+	\item[Likelihood, Continuous Case] Let $\left(E,\left(\mathbb{P}_\theta\right)_{\theta\in\Theta}\right)$ be a statistical model associated with a sample of i.i.d. r.v. $X_1,\dots,X_n$. Assume that all the $\mathbb{P}_\theta$ have density $f_\theta$.
+	\item[Definition] The likelihood of the model is the map $L$ defined as
+	\begin{align*}
+	L: E^n\times\Theta&\rightarrow\mathbb{R}\\
+	(x_1,\dots,x_n;\theta)&\mapsto\prod_{i=1}^{n}f_\theta(x_i)
+	\end{align*}
+	\item[Maximum Likelihood Estimator] Let $X_1,\dots,X_n$ be an i.i.d. sample associated with a statistical model $\left(E,\left(\mathbb{P}_\theta\right)_{\theta\in\Theta}\right)$ and let $L$ be the corresponding likelihood.
+	\item[Definition] The maximum likelihood estimator of $\theta$ is defined as
+	$$\hat{\theta}_n^\text{MLE}=\argmax\limits_{\theta\in\Theta}L\left(X_1,\dots,X_n,\theta\right),$$
+	provided it exists.
+	\item[Log-likelihood Estimator] In practice, we use the fact that
+	$$\hat{\theta}_n^\text{MLE}=\argmax\limits_{\theta\in\Theta}\log L\left(X_1,\dots,X_n,\theta\right),$$
+\end{description}
+
+\subsubsection{Concave and Convex Functions}
+
+\begin{description}
+	\item A twice-differentiable function $h:\Theta\subset\mathbb{R}\rightarrow\mathbb{R}$ is said to be {\bf concave} if its second derivative satisfies
+	$$h''(\theta)\leq0,\quad\forall\theta\in\Theta.$$
+	It is said to be {\bf strictly concave} if the inequality is strict: $h''(\theta)<0$. Moreover, $h$ is said to be (strictly) {\bf convex} if $-h$ is (strictly) concave, i.e. $h''(\theta)\geq0$ ($h''(\theta)>0$).
+	\item[Multivariate Concave Functions] More generally, for a multivariate function: $h:\Theta\subset\mathbb{R}^d\rightarrow\mathbb{R}$, $d\geq2$, define the
+	\begin{itemize}
+		\item {\bf gradient vector:}
+		$$\nabla h(\theta)=\begin{pmatrix}
+		\dfrac{\partial h(\theta)}{\partial\theta_1}\\
+		\vdots\\
+		\dfrac{\partial h(\theta)}{\partial\theta_d}
+		\end{pmatrix}\in\mathbb{R}^d$$
+		\item {\bf Hessian matrix:}
+		$$\mathbb{H}h(\theta)=
+		\begin{pmatrix}
+			\dfrac{\partial^2h(\theta)}{\partial\theta_1\partial\theta_1} & \dots & \dfrac{\partial^2h(\theta)}{\partial\theta_1\partial\theta_d}\\
+			\vdots& \ddots &\vdots\\
+			\dfrac{\partial^2h(\theta)}{\partial\theta_d\partial\theta_1}& \dots & \dfrac{\partial^2h(\theta)}{\partial\theta_d\partial\theta_d}
+		\end{pmatrix} \in\mathbb{R}^{d\times d}
+		$$
+	\end{itemize}
+	\item $h$ is concave $\iff$ $x^\intercal\mathbb{H}h(\theta)x\leq0$, $\forall x\in\mathbb{R}^d$, $\theta\in\Theta$
+	\item $h$ is strictly concave $\iff$ $x^\intercal\mathbb{H}h(\theta)x<0$, $\forall x\in\mathbb{R}^d$, $\theta\in\Theta$
+	\item[Consistency of Maximum Likelihood Estimator] Under mild regularity conditions, we have
+	$$\hat{\theta}_n^\text{MLE}\quad\xrightarrow[n\rightarrow\infty]{\mathbb{P}}\quad\theta^*$$
+	\item[Covariance] In general, when $\theta\subset\mathbb{R}^d$, $d\geq2$, its coordinates are not necessarily independent. The covariance between two random variables $X$ and $Y$ is \begin{align*}
+		\cov(X,Y)&:=\mathbb{E}\left[\left(X-\mathbb{E}\left[X\right]\right)\left(Y-\mathbb{E}\left[Y\right]\right)\right]\\
+		&=\mathbb{E}\left[XY\right]-\mathbb{E}\left[X\right]\mathbb{E}\left[Y\right]
+	\end{align*}
+	\item[Properties] ~
+	\begin{itemize}
+		\item $\cov\left(X,X\right)=\var\left(X\right)$
+		\item $\cov\left(X,Y\right)=\cov\left(Y,X\right)$
+		\item If $X$ and $Y$ are independent, then $\cov\left(X,Y\right)=0$
+	\end{itemize}
+	\item[Covariance Matrix] The covariance matrix of a random vector $$X=\left(X^{(1)},\dots,X^{(d)}\right)^\intercal\in\mathbb{R}^d$$ is given by
+	$$\Sigma=\cov\left(X\right)=\mathbb{E}\left[\left(X-\mathbb{E}\left[X\right]\right)\left(X-\mathbb{E}\left[X\right]\right)^\intercal\right].$$
+	This is a matrix of size $d\times d$.
+	\item If $X\in\mathbb{R}^d$ and $A,B$ are matrices:
+	$$\cov\left(AX+B\right)=\cov\left(AX\right)=A\,\cov(X)A^\intercal=A\Sigma_XA^\intercal$$
+	\item[The Multivariate Gaussian Distribution] If $(X,T)^\intercal$ is a Gaussian vector then its PDF depends on 5 parameters:
+	$$\mathbb{E}\left[X\right],\var(X),\mathbb{E}[Y],\var(Y),\;\text{and}\;\cov(X,Y).$$
+	A Gaussian vector $X\in\mathbb{R}^d$ is completely determined by its expected value and covariance matrix $\Sigma$:
+	$$X\sim\mathcal{N}_d\left(\mu,\Sigma\right).$$
+	It has PDF over $\mathbb{R}^d$ given by:
+	$$f(x)=\dfrac{1}{\left((2\pi)^d\det\left(\Sigma\right)\right)^{\frac{1}{2}}}\exp\left(-\frac{1}{2}(x-\mu)^\intercal\Sigma^{-1}(x-\mu)\right)$$
+	\item[The Multivariate CLT] Let $X_1,\dots,X_n\in\mathbb{R}^d$ be independent copies of a random vector $X$ such that $\mathbb{E}\left[X\right]=\mu$, $\cov\left(X\right)=\Sigma$, then
+	$$\sqrt{n}\left(\overline{X}_n-\mu\right)\quad\xrightarrow[n\rightarrow\infty]{(d)}\quad\mathcal{N}_d\left(0,\Sigma\right)$$
+	\item[Multivariate Delta Method] Let $\left(T_n\right)_{n\geq1}$ sequence of random vectors in $\mathbb{R}^d$ such that
+	$$\sqrt{n}\left(T_n-\theta\right)\quad\xrightarrow[n\rightarrow\infty]{(d)}\quad\mathcal{N}_d\left(0,\Sigma\right),$$
+	for some $\theta\in\mathbb{R}^d$ and some covariance $\Sigma\in\mathbb{R}^{d\times d}$.
+	Let $g:\mathbb{R}^d\rightarrow\mathbb{R}^k$ ($k\geq1$) be continuously differentiable at $\theta$. Then,
+	$$\sqrt{n}\left(g\left(T_n\right)-g\left(\theta\right)\right)\quad\xrightarrow[n\rightarrow\infty]{(d)}\quad\mathcal{N}\left(0,\nabla g(\theta)^\intercal\Sigma\,\nabla g(\theta)\right),$$
+	where $\nabla g(\theta)=\dfrac{\partial g(\theta)}{\partial\theta}=\left(\dfrac{\partial g_j}{\partial\theta_i}\right)_{1\leq i\leq d\atop
+		 1\leq j\leq k}\in\mathbb{R}^{d\times k}$
+\end{description}
+
+\subsubsection{Fisher Information}
+
+Define the log-likelihood for one observation as
+$$\ell(\theta)=\log L_1\left(X,\theta\right),\quad\theta\in\Theta\subset\mathbb{R}^d.$$
+Assume that $\ell$ is a.s. twice differentiable. Under some regularity conditions, the Fisher information of the statistical model is defined as
+$$I(\theta)=\mathbb{E}\left[\nabla\ell(\theta)\nabla\ell(\theta)^\intercal\right]-\mathbb{E}\left[\nabla\ell(\theta)\right]\mathbb{E}\left[\nabla\ell(\theta)\right]^\intercal=-\mathbb{E}\left[\mathbb{H}\ell(\theta)\right].$$
+If $\Theta\subset\mathbb{R}$, we get
+$$I(\theta)=\var\left[\ell'(\theta)\right]=-\mathbb{E}\left[\ell''(\theta)\right].$$
+
+\subsubsection{Asymptotic Normality of the MLE}
+
+\begin{description}
+	\item[Theorem] Let $\theta^*\in\Theta$ (the true parameter). Assume the following:
+	\begin{enumerate}
+		\item The parameter is identifiable.
+		\item For all $\theta\in\Theta$, the support of $\mathbb{P}_\theta$ does not depend on $\theta$.
+		\item $\theta^*$ is not on the boundary of $\Theta$.
+		\item $I(\theta)$ is invertible in a neighborhood of $\theta^*$.
+		\item A few more technical conditions.
+	\end{enumerate}
+	Then, $\hat{\theta}_n^\text{MLE}$ satisfies
+	\begin{itemize}
+		\item $\hat{\theta}_n^\text{MLE}\quad\xrightarrow[n\rightarrow\infty]{\mathbb{P}}\quad\theta^*$ w.r.t. $\mathbb{P}_{\theta^*}$;
+		\item $\sqrt{n}\left(\hat{\theta}_n^\text{MLE}-\theta^*\right)\quad\xrightarrow[n\rightarrow\infty]{(d)}\quad\mathcal{N}_d\left(0,I^{-1}(\theta^*)\right)$ w.r.t. $\mathbb{P}_{\theta^*}$.
+	\end{itemize}
+\end{description}
+
+\subsection{The Method of Moments}
+
+\subsubsection{Moments}
+
+\begin{description}
+	\item Let $X_1,\dots,X_n$ be an i.i.d. sample associated with a statistical model $\left(E,\left(\mathbb{P}_\theta\right)_{\theta\in\Theta}\right)$. Assume that $E\subseteq\mathbb{R}$ and $\Theta\subseteq\mathbb{R}^d$, for some $d\geq1$.
+	\item[Population Moments] Let $m_k(\theta)=\mathbb{E}_\theta\left[X_1^k\right]$, $1\leq k\leq d$.
+	\item[Empirical Moments] Let $\hat{m}_k=\overline{X_n^k}=\frac{1}{n}{\displaystyle\sum_{i=1}^{n}X_i^k}$, $1\leq k\leq d$.
+	\item From LLN, $$\hat{m}_k\quad\xrightarrow[n\rightarrow\infty]{\mathbb{P}/a.s.}\quad m_k(\theta)$$
+	More compactly, we say that the whole vector converges:
+	$$\left(\hat{m}_1,\dots,\hat{m}_d\right)\quad\xrightarrow[n\rightarrow\infty]{\mathbb{P}/a.s.}\quad\left(m_1(\theta),\dots,m_d(\theta)\right)$$
+\end{description}
+
+\subsubsection{Moments Estimator}
+
+\begin{description}
+	\item Let
+	\begin{align*}
+	M:\Theta&\rightarrow\mathbb{R}^d\\
+		\theta&\mapsto M(\theta)=\left(m_1(\theta),\dots,m_d(\theta)\right)
+	\end{align*}
+	\item Assume $M$ is one-to-one: $$\theta=M^{-1}\left(m_1(\theta),\dots,m_d(\theta)\right)$$
+	\item[Moments estimator of $\theta$:] ~
+	$$\widehat{\theta}_n^\text{\;MM}=M^{-1}\left(\widehat{m}_1,\dots,\widehat{m}_d\right)$$
+	provided it exists.
+\end{description}
+
+\subsubsection{Generalized Method of Moments}
+
+\begin{description}
+	\item Applying the multivariate CLT and Delta method yields:
+	\item[Theorem] ~
+	$$\sqrt{n}\left(\widehat{\theta}_n^\text{\;MM}-\theta\right)\quad\xrightarrow[n\rightarrow\infty]{(d)}\quad\mathcal{N}\left(0,\Gamma(\theta)\right),$$
+	where $\Gamma(\theta)=\left[\dfrac{\partial M^{-1}}{\partial\theta}M(\theta)\right]^\intercal\Sigma(\theta)\left[\dfrac{\partial M^{-1}}{\partial\theta}M(\theta)\right]$
+	\item[MLE vs. Moment Estimator] ~
+	\begin{itemize}
+		\item Comparison of the quadratic risks: In general, the MLE is more accurate.
+		\item MLE still gives good results if the model is misspecified.
+		\item Computational issues: Sometimes, the MLE is intractable but MM is easier (polynomial equations).
+	\end{itemize}
+\end{description}
+
+\subsection{M-Estimation}
+
+\begin{itemize}
+	\item Let $X_1,\dots,X_n$ be i.i.d. with some unknown distribution $\mathbb{P}$ in some sample space $E$ ($E\subseteq\mathbb{R}^d$ for some $d\geq1$).
+	\item No statistical model needs to be assumed (similar to ML).
+	\item The goal is to estimate some parameter $\mu^*$ associated with $\mathbb{P}$, e.g. its mean, variance, median, other quantiles, the true parameter in some statistical model, etc.
+	\item We want to find a function $\rho:E\times\mathcal{M}\rightarrow\mathbb{R}$, where $\mathcal{M}$ is the set of all possible values for the unknown $\mu^*$, such that
+	$$Q(\mu):=\mathbb{E}\left[\rho\left(X_1,\mu\right)\right]$$
+	achieves its minimum at $\mu=\mu^*$.
+\end{itemize}
+
+\begin{description}
+	\item[Examples (1)] ~
+	\begin{itemize}
+		\item If $E=\mathcal{M}=\mathbb{R}$ and $\rho(x,\mu)=(x-\mu)^2,$ for all $x,\mu\in\mathbb{R}$: $\mu^*=\mathbb{E}\left[X\right]$.
+		\item If $E=\mathcal{M}=\mathbb{R}^d$ and $\rho(x,\mu)=\lVert x-\mu\rVert_2^2$, for all $x,\mu\in\mathbb{R}^d$: $\mu^*=\mathbb{E}\left[X\right]\in\mathbb{R}^d$.
+		\item If $E=\mathcal{M}=\mathbb{R}$ and $\rho(x,\mu)=|x-\mu|$, for all $x,\mu\in\mathbb{R}$: $\mu^*$ is a {\bf median} of $\mathbb{P}$.
+	\end{itemize}
+	\item[Example (2)] If $E=\mathcal{M}=\mathbb{R}$, $\alpha\in(0,1)$ is fixed and $\rho(x,\mu)=C_\alpha(x-\mu)$, for all $x,\mu\in\mathbb{R}$: $\mu^*$ is a $\alpha$-quantile of $\mathbb{P}$.
+	\item[Check Function] ~
+	$$C_\alpha=\begin{cases}
+	-(1-\alpha)x&\text{if }x<0\\
+	\alpha x&\text{if }x\geq0.
+	\end{cases}$$
+	\begin{center}
+		\includegraphics[width=0.4\columnwidth]{check.pdf}
+	\end{center}
+	\item[MLE is an M-estimator] Assume that $\left(E,\left(\mathbb{P}_\theta\right)_{\theta\in\Theta}\right)$ is a statistical model associated with the data.
+	\item[Theorem] Let $\mathcal{M}=\Theta$ and $\rho(x,\theta)=-\log L_1(x,\theta)$, provided the likelihood is positive everywhere. Then,
+	$$\mu^*=\theta^*,$$
+	where $\mathbb{P}=\mathbb{P}_{\theta^*}$ (i.e., $\theta^*$ is the true value of the parameter).
+	\item[Statistical Analysis] ~
+	\begin{itemize}
+		\item Define $\hat{\mu}_n$ as a minimizer of
+		$$Q_n(\mu):=\frac{1}{n}\sum_{i=1}^{n}\rho\left(X_i,\mu\right).$$
+		\item Let $J(\mu)=\dfrac{\partial^2Q(\mu)}{\partial\mu\partial\mu^\intercal}$.
+		\item Under some regularity conditions, $J(\mu)=\mathbb{E}\left[\dfrac{\partial^2\rho(X_1,\mu)}{\partial\mu\partial\mu^\intercal}\right]$
+		\item Let $K(\mu)=\cov\left(\dfrac{\partial\rho(X_1,\mu)}{\partial\mu}\right)$
+		\item Remark: In the log-likelihood case,
+		$$J(\theta)=K(\theta)=I(\theta)\qquad\text{(Fisher information)}$$
+	\end{itemize}
+	\item[Asymptotic Normality] Let $\mu^*\in\mathcal{M}$ (the true parameter). Assume the following:
+	\begin{enumerate}
+		\item $\mu^*$ is the only minimizer of the function $Q$,
+		\item $J(\mu)$ is invertible for all $\mu\in\mathcal{M}$,
+		\item A few more technical conditions.
+	\end{enumerate}
+	Then, $\hat{\mu}_n$ satisfies
+	\begin{itemize}
+		\item $\hat{\mu}_n\quad\xrightarrow[n\rightarrow\infty]{\mathbb{P}}\quad\mu^*$
+		\item $\sqrt{n}\left(\hat{\mu}_n-\mu^*\right)\quad\xrightarrow[n\rightarrow\infty]{(d)}\quad\mathcal{N}\left(0,J(\mu^*)^{-1}K(\mu^*)J(\mu^*)^{-1}\right)$
+	\end{itemize}
+\end{description}
+
+\section{Hypothesis Testing}\smallskip \hrule height 1pt \smallskip
+
+\subsection{Parametric Hypothesis Testing}
+
+\begin{description}
+	\item[Hypotheses] ~
+	$$H_0:\Delta_c=\Delta_d\qquad\text{vs.}\qquad H_1:\Delta_d>\Delta_c$$
+	\item Since the data is Gaussian by assumption, we don't need the CLT.
+	$$\overline{X}_n\sim\mathcal{N}\left(\Delta_d,\frac{\sigma_d^2}{n}\right)\qquad\text{and}\qquad\overline{Y}_m\sim\mathcal{N}\left(\Delta_c,\frac{\sigma_c^2}{m}\right)$$
+	Then,
+	$$\dfrac{\overline{X}_n-\overline{Y}_m-\left(\Delta_d-\Delta_c\right)}{\sqrt{\dfrac{\sigma_d^2}{n}+\dfrac{\sigma_c^2}{m}}}\sim\mathcal{N}(0,1)$$
+	\item[Asymptotic test] Assume that $m=cn$ and $n\rightarrow\infty$
+	\item Using Slutsky's theorem, we also have
+	$$\dfrac{\overline{X}_n-\overline{Y}_m-\left(\Delta_d-\Delta_c\right)}{\sqrt{\dfrac{\widehat{\sigma}_d^2}{n}+\dfrac{\widehat{\sigma}_c^2}{m}}}\quad\xrightarrow[n\rightarrow\infty]{(d)}\quad\mathcal{N}(0,1)$$
+	where $\widehat{\sigma}_d^2=\dfrac{1}{n-1}{\displaystyle\sum_{i=1}^{n}}\left(X_i-\overline{X}_n\right)^2$ and $\widehat{\sigma}_c^2=\dfrac{1}{m-1}{\displaystyle\sum_{i=1}^{m}}\left(Y_i-\overline{Y}_m\right)^2$
+	\item We get the following test at asymptotic level $\alpha$:
+	$$R_\psi=\left\{\dfrac{\overline{X}_n-\overline{Y}_m}{\sqrt{\dfrac{\widehat{\sigma}_d^2}{n}+\dfrac{\widehat{\sigma}_c^2}{m}}}>q_\alpha\right\}$$
+\end{description}
+
+\subsection{The $\mathbf{\chi^2}$ Distribution}
+\begin{description}[noitemsep]
+	\item[Definition] For a positive integer $d$, the $\chi^2$ distribution with $d$ degrees of freedom is the law of the random variable $Z_1^2+\dots+Z_d^2$, where $Z_1,\dots,Z_d\stackrel{\text{iid}}{\sim}\mathcal{N}(0,1)$.
+	\item[Properties] If $V\sim\chi_k^2$, then
+	\begin{itemize}
+		\item $\mathbb{E}\left[V\right]=\mathbb{E}\left[Z_1^2\right]+\dots+\mathbb{E}\left[Z_d^2\right]=d$
+		\item $\var(V)=\var(Z_1^2)+\dots+\var(Z_d^2)=2d$
+	\end{itemize}
+	\item[Sample Variance] $S_n=\dfrac{1}{n}{\displaystyle\sum_{i=1}^{n}}\left(X_i-\overline{X}_n\right)^2=\dfrac{1}{n}{\displaystyle\sum_{i=1}^{n}}X_i^2-\left(\overline{X}_n\right)^2$
+	\item[Cochran's Theorem] If $X_1,\dots,X_n\stackrel{\text{iid}}{\sim}\mathcal{N}\left(\mu,\sigma^2\right)$, then
+	\begin{itemize}[itemsep=1pt]
+		\item $\overline{X}_n\independent S_n$, for all $n$.
+		\item $\dfrac{nS_n}{\sigma^2}\sim\chi_{n-1}^2$
+	\end{itemize}
+	\item We often prefer the unbiased estimator of $\sigma^2$:
+	$$\widetilde{S}_n=\dfrac{1}{n-1}\sum_{i=1}^{n}\left(X_i-\overline{X}_n\right)^2=\dfrac{n}{n-1}S_n$$
+\end{description}
+
+\subsection{Student's T Distribution}
+\begin{description}
+	\item[Definition] For a positive integer $d$, the Student's T distribution with $d$ degrees of freedom (denoted by $t_d$) is the law of the random variable $\dfrac{Z}{\sqrt{V/d}}$, where $Z\sim\mathcal{N}(0,1)$, $V\sim\chi_d^2$ and $Z\independent V$.
+	\item[Student's T test (one-sample, two-sided)]  ~
+	
+	Let $X_1,\dots,X_n\stackrel{\text{iid}}{\sim}\mathcal{N}\left(\mu,\sigma^2\right)$ where both $\mu$ and $\sigma^2$ are unknown.
+	We want to test:
+	$$H_0:\mu=0\quad\text{vs.}\quad H_1:\mu\neq0$$
+	\item[Test statistic:] ~
+	$$T_n=\sqrt{n}\dfrac{\overline{X}_n}{\sqrt{\widetilde{S}_n}}=\dfrac{\sqrt{n}\dfrac{\overline{X}_n-\mu}{\sigma}}{\sqrt{\dfrac{\widetilde{S}_n}{\sigma^2}}}$$
+	\item Since $\sqrt{n}\dfrac{\overline{X}_n}{\sigma}\sim\mathcal{N}(0,1)$ (under $H_0$) and $\dfrac{\widetilde{S}_n}{\sigma^2}\sim\dfrac{\chi_{n-1}^2}{n-1}$ are independent by Cochran's theorem, we have
+	$$T_n\sim t_{n-1}.$$
+	\item[Student's test with (non-asymptotic) level] $\alpha\in(0,1)$:
+	$$\psi_\alpha=\mathds{1}\left\{|T_n|>q_\frac{\alpha}{2}\right\},$$
+	where $q_\frac{\alpha}{2}$ is the $\left(1-\frac{\alpha}{2}\right)$-quantile of $t_{n-1}$.
+	\item[Student's T test (one-sample, one-sided)] ~
+	$$H_0:\mu\leq\mu_0\quad\text{vs.}\quad H_1:\mu>\mu_0$$
+	\item[Test statistic:] ~
+	$$T_n=\sqrt{n}\dfrac{\overline{X}_n-\mu_0}{\sqrt{\widetilde{S}_n}}\sim t_{n-1}\qquad\left(\text{under }H_0\right)$$
+	\item[Student's test with (non-asymptotic) level] $\alpha\in(0,1)$:
+	$$\psi_\alpha=\mathds{1}\left\{T_n>q_\alpha\right\}$$
+	where $q_\alpha$ is the ($1-\alpha$)-quantile of $t_{n-1}$.
+	\item[Two-sample T-test] ~
+		$$\dfrac{\overline{X}_n-\overline{Y}_m-\left(\Delta_d-\Delta_c\right)}{\sqrt{\dfrac{\widehat{\sigma}_d^2}{n}+\dfrac{\widehat{\sigma}_c^2}{m}}}\sim t_N$$
+	\item[Welch-Satterthwaite formula] ~
+	$$N=\dfrac{\left(\dfrac{\widehat{\sigma}_d^2}{n}+\dfrac{\widehat{\sigma}_c^2}{m}\right)^2}{\dfrac{\widehat{\sigma}_d^4}{n^2(n-1)}+\dfrac{\widehat{\sigma}_c^4}{m^2(m-1)}}\geq\min(n,m)$$
+\end{description}
+
+\subsection{Wald's Test}
+
+\begin{description}
+	\item[A test based on the MLE] Consider an i.i.d. sample $X_1,\dots,X_n$ with statistical model $\left(E,\left(\mathbb{P}_\theta\right)_{\theta\in\Theta}\right)$, where $\Theta\subseteq\mathbb{R}^d$ ($d\geq1$) and let $\theta_0\in\Theta$ be fixed and given. $\theta^*$ is the true parameter.
+	\item Consider the following hypotheses:
+	$$H_0:\theta^*=\theta_0\quad\text{vs.}\quad H_1:\theta^*\neq\theta_0$$
+	\item Let $\widehat{\theta}_n^\text{\;MLE}$ be the MLE. Assume the MLE technical conditions are satisfied.
+	\item If $H_0$ is true, then
+	$$\sqrt{n}\,I\left(\widehat{\theta}^\text{\;MLE}\right)^\frac{1}{2}\left(\widehat{\theta}_n^\text{\;MLE}-\theta_0\right)\quad\xrightarrow[n\rightarrow\infty]{(d)}\quad\mathcal{N}_d\left(0,\mathbb{I}_d\right)$$
+	\item[Wald's test] ~
+	$$T_n:=n\left(\widehat{\theta}_n^\text{\;MLE}-\theta_0\right)^\intercal I\left(\widehat{\theta}_n^\text{\;MLE}\right)\left(\widehat{\theta}_n^\text{\;MLE}-\theta_0\right)\quad\xrightarrow[n\rightarrow\infty]{(d)}\quad\chi_d^2$$
+	\item[Wald's test with asymptotic level] $\alpha\in(0,1)$:
+	$$\psi=\mathds{1}\left\{T_n>q_\alpha\right\},$$
+	where $q_\alpha$ is the ($1-\alpha$)-quantile of $\chi_d^2$.
+	\item[Wald's Test in 1 dimension] In one dimension, Wald's test coincides with the two-sided test based on the asymptotic normality of the MLE.
+\end{description}
+
+\subsection{Likelihood Ratio Test}
+
+\begin{description}
+	\item[Basic Form of the Likelihood Ratio Test] Let $X_1,\dots,X_n\stackrel{\text{iid}}{\sim}\mathbb{P}_{\theta^*}$, and consider the associated statistical model $\left(E,\left(\mathbb{P}_\theta\right)_{\theta\in\mathbb{R}^d}\right)$. Suppose that $\mathbb{P}_\theta$ is a discrete probability distribution with pmf given by $p_\theta$.
+	\item In its most basic form, the likelihood ratio test can be used to decide between two hypotheses of the following form:
+	$$H_0:\theta^*=\theta_0\quad\text{vs.}\quad H_1:\theta^*=\theta_1$$
+	\item[Likelihood function] ~
+	\begin{align*}
+		L_n:\mathbb{R}^n\times\mathbb{R}^d&\rightarrow\mathbb{R}\\
+		(x_1,\dots,x_n;\theta)&\mapsto\prod_{i=1}^{n}p_\theta(x_i)
+	\end{align*}
+	The likelihood ratio test in this set-up is of the form
+	$$\psi_C=\mathds{1}\left(\dfrac{L_n(x_1,\dots,x_n;\theta_1)}{L_n(x_1,\dots,x_n;\theta_0)}>C\right)$$
+	where $C$ is a threshold to be specified.
+	\item[A test based on the log-likelihood] Consider an i.i.d. sample $X_1,\dots,X_n$ with statistical model $\left(E,\left(\mathbb{P}_\theta\right)_{\theta\in\Theta}\right)$, where $\Theta\subseteq\mathbb{R}^d$ ($d\geq1$). Suppose the null hypothesis has the form
+	$$H_0: \left(\theta_{r+1},\dots,\theta_{d}\right)=\left(\theta_{r+1}^{(0)},\dots,\theta_{d}^{(0)}\right),$$
+	for some fixed and given numbers $\theta_{r+1}^{(0)},\dots,\theta_{d}^{(0)}$.
+	\item Let $$\widehat{\theta}_n=\argmax\limits_{\theta\in\Theta}\ell_n(\theta)\qquad\text{(MLE)}$$
+	and $$\widehat{\theta}_n^c=\argmax\limits_{\theta\in\Theta_0}\ell_n(\theta)\qquad\text{({\it constrained MLE})}$$
+	where $\Theta_0=\left\{\theta\in\Theta:\left(\theta_{r+1},\dots,\theta_{d}\right)=\left(\theta_{r+1}^{(0)},\dots,\theta_{d}^{(0)}\right)\right\}$
+	\item[Test statistic:] ~
+	$$T_n=2\left(\ell_n\left(\hat{\theta}_n\right)-\ell_n\left(\hat{\theta}_n^c\right)\right).$$
+	\item[Wilk's Theorem] Assume $H_0$ is true and the MLE technical conditions are satisfied. Then,
+	$$T_n\quad\xrightarrow[n\rightarrow\infty]{(d)}\quad\chi_{d-r}^2$$
+	\item[Likelihood ratio test with asymptotic level] $\alpha\in(0,1)$:
+	$$\psi=\mathds{1}\left\{T_n>q_\alpha\right\},$$
+	where $q_\alpha$ is the ($1-\alpha$)-quantile of $\chi_{d-r}^2$.
+\end{description}
+
+\subsection{Goodness of Fit Tests}
+
+\begin{description}
+	\item Let $X$ be a r.v. We want to know if the hypothesized distribution is a good fit for the data.
+	\item Key characteristic of Goodness of Fit tests: no parametric modeling.
+	\item[Discrete distribution] Let $E=\{a_1,\dots,a_K\}$ be a finite space and $\left(\mathbb{P}_\mathbf{p}\right)_{\mathbf{p}\in\Delta_K}$ be the family of all probability distributions on E.
+	\begin{itemize}
+		\item $\Delta_K=\left\{\mathbf{p}=\left(p_1,\dots,p_K\right)\in(0,1)^K:{\displaystyle\sum_{j=1}^{K}}p_j=1\right\}$
+		\item For $\mathbf{p}\in\Delta_K$ and $X\sim\mathbb{P}_\mathbf{p}$, $$\mathbb{P}_\mathbf{p}\left[X=a_j\right]=p_j,\quad j=1,\dots,K.$$
+	\end{itemize}
+	\item Let $X_1,\dots,X_n\stackrel{\text{iid}}{\sim}\mathbb{P}_\mathbf{p}$, for some unknown $\mathbf{p}\in\Delta_K$, and let $\mathbf{p}^0\in\Delta_K$ be fixed.
+	\item We want to test:
+	$$H_0:\mathbf{p}=\mathbf{p}^0\quad\text{vs.}\quad H_1:\mathbf{p}\neq\mathbf{p}^0$$
+	with asymptotic level $\alpha\in(0,1)$.
+	\item[The Probability Simplex in $K$ Dimensions] The probability simplex in $\mathbb{R}^K$, denoted by $\Delta_K$, is the set of all vectors $\mathbf{p}=\left[p_1,\dots,p_K\right]^\intercal$ such that $$\mathbf{p}\cdot\mathbf{1}=\mathbf{p}^\intercal\mathbf{1}=1,\quad p_i\geq0\quad\text{for all $K$}$$
+	where $\mathbf{1}$ denotes the vector $\mathbf{1}=\left(1,\dots,1\right)^\intercal$
+	\item[Categorical Likelihood] ~
+	\begin{itemize}
+		\item Likelihood of the model:
+		$$L_n\left(X_1,\dots,X_n;\mathbf{p}\right)=p_1^{N_1}p_2^{N_2}\dots p_K^{N_K}$$
+		where $N_j=\#\left\{i=1,\dots,n: X_i=a_j\right\}.$
+		\item Let $\widehat{\mathbf{p}}$ be the MLE:
+		$$\widehat{\mathbf{p}}_j=\dfrac{N_j}{n},\quad j=1,\dots,K.$$
+		$\widehat{\mathbf{p}}$ maximizes $\log L_n\left(X_1,\dots,X_n,\mathbf{p}\right)$ {\it under the constraint}.
+	\end{itemize}
+	\item[$\mathbf{\chi^2}$ test] If $H_0$ is true, then $\sqrt{n}\left(\widehat{\mathbf{p}}-\mathbf{p}^0\right)$ is asymptotically normal, and the following holds:
+	\item[Theorem] Under $H_0$:
+	$$T_n=n\sum_{j=1}^{n}\dfrac{\left(\widehat{\mathbf{p}}_j-\mathbf{p}_j^0\right)^2}{\mathbf{p}_j^0}\quad\xrightarrow[n\rightarrow\infty]{(d)}\quad\chi_{K-1}^2$$
+	\item[CDF and empirical CDF] Let $X_1,\dots,X_n$ be i.i.d. real random variables. The CDF of $X_1$ is defined as
+	$$F(t)=\mathbb{P}\left[X_1\leq1\right],\quad\forall t\in\mathbb{R}.$$
+	{\it It completely characterizes the distribution of $X_1$.}
+	
+	The {\bf empirical CDF} of the sample $X_1,\dots,X_n$ is defined as
+	\begin{align*}
+		F_n(t)&=\dfrac{1}{n}\sum_{i=1}^{n}\mathds{1}\left\{X_i\leq 1\right\}\\
+		&=\dfrac{\#\{i=1,\dots,n:X_i\leq t\}}{n},\quad\forall t\in\mathbb{R}.
+	\end{align*}
+	\item[Consistency] By the LLN, for all $t\in\mathbb{R}$,
+	$$F_n(t)\quad\xrightarrow[n\rightarrow\infty]{a.s.}\quad F(t).$$
+	\item[Glivenko-Cantelli Theorem (Fundamental theorem of statistics)] ~
+	$$\sup\limits_{t\in\mathbb{R}}\left|F_n(t)-F(t)\right|\quad\xrightarrow[n\rightarrow\infty]{a.s.}\quad0$$
+	\item[Asymptotic normality] By the CLT, for all $t\in\mathbb{R}$,
+	$$\sqrt{n}\left(F_n(t)-F(t)\right)\quad\xrightarrow[n\rightarrow\infty]{(d)}\quad\mathcal{N}\left(0,F(t)\left(1-F(t)\right)\right)$$
+	\item[Donsker's Theorem] If $F$ is continuous, then
+	$$\sqrt{n}\sup\limits_{t\in\mathbb{R}}\left|F_n(t)-F(t)\right|\quad\xrightarrow[n\rightarrow\infty]{a.s.}\quad\sup\limits_{0\leq t\leq 1}\left|\mathbf{B}(t)\right|,$$
+	where $\mathbf{B}(t)$ is a Brownian bridge on $[0,1]$.
+\end{description}
+
+\subsubsection{Kolmogorov-Smirnov Test}
+
+\begin{description}
+	\item Let $T_n=\sup\limits_{t\in\mathbb{R}}\sqrt{n}\left|F_n(t)-F(t)\right|$. By Donsker's theorem, if $H_0$ is true, then $T_n\xrightarrow[n\rightarrow\infty]{(d)}Z$, where $Z$ has a known distribution (supremum of the absolute value of a Brownian bridge).
+	\item[KS test with asymptotic level $\alpha$:] ~
+	$$\delta_\alpha^\text{KS}=\mathds{1}\left\{T_n>q_\alpha\right\}$$
+	where $q_\alpha$ is the ($1-\alpha$)-quantile of $Z$.
+	\item Let $X_{(1)}\leq X_{(2)}\leq\dots\leq X_{(n)}$ be the reordered sample. The expression for $T_n$ reduces to
+	$$T_n=\sqrt{n}\max\limits_{i=1,\dots,n}\left\{\max\left(\left|\dfrac{i-1}{n}-F^0\left(X_{(i)}\right)\right|,\left|\dfrac{i}{n}-F^0\left(X_{(i)}\right)\right|\right)\right\}.$$
+\end{description}
+\begin{center}
+	\includegraphics*[width=0.6\columnwidth]{ks.pdf}
+\end{center}
+
+\begin{description}
+	\item[Pivotal Distribution] $T_n$ is called a {\bf pivotal statistic}: If $H_0$ is true, the distribution of $T_n$ does not depend on the distribution of the $X_i$'s.
+\end{description}
+
+\subsubsection{Other Goodness of Fit Tests}
+
+\begin{description}
+	\item[Kolmogorov-Smirnov] ~
+	$$d\left(F_n,F\right)=\sup\limits_{t\in\mathbb{R}}\left|F_n(t)-F(t)\right|$$
+	\item[Cram\'er-Von Mises] ~
+	\begin{align*}
+		d^2\left(F_n,F\right)&=\int_{\mathbb{R}}\left[F_n(t)-F(t)\right]^2dF(t)\\
+		&=\underset{X\sim F}{\mathbb{E}}\left[\left|F_n(X)-F(X)\right|^2\right]
+	\end{align*}
+	\item[Anderson-Darling] ~
+	\[d^2\left(F_n,F\right)\int_{\mathbb{R}}\dfrac{\left[F_n(t)-F(t)\right]^2}{F(t)\left(1-F(t)\right)}dF(t)\]
+\end{description}
+\subsubsection{Kolmogorov-Lilliefors Test}
+
+\begin{description}
+	\item We want to test if $X$ has a Gaussian distribution with unknown parameters. In this case, Donsker's theorem is {\it no longer valid}. Instead, we compute the quantiles for the test statistic
+	$$\sup\limits_{t\in\mathbb{R}}\left|F_n(t)-\Phi_{\hat{\mu},\hat{\sigma}^2}(t)\right|$$
+	where $\hat{\mu}=\overline{X}_n$, $\hat{\sigma}^2=S_n^2$ and $\Phi_{\hat{\mu},\hat{\sigma}^2}(t)$ is the CDF of $\mathcal{N}\left(\hat{\mu},\hat{\sigma}^2\right).$
+	\item They do not depend on unknown parameters.
+\end{description}
+
+\subsubsection{Quantile-Quantile (QQ) plots}
+
+\begin{itemize}
+	\item Provide a visual way to perform goodness of fit tests.
+	\item Not a formal test but quick and easy check to see if a distribution is plausible.
+	\item Main idea: We want to check visually if the plot of $F_n$ is close to that of $F$ or, equivalently, if the plot of $F_n^{-1}$ is close to $F^{-1}$.
+	\item Check if the points
+	$$\left(F^{-1}(\tfrac{1}{n}),F_n^{-1}(\tfrac{1}{n})\right),\dots,\left(F^{-1}(\tfrac{n-1}{n}),F_n^{-1}(\tfrac{n-1}{n})\right)$$
+	are near the line $y=x.$
+	\item $F_n$ is not technically invertible but we define
+	$$F_n^{-1}(\tfrac{i}{n})=X_i,$$
+	the $i$\textsuperscript{th} largest observation.
+\end{itemize}
+\begin{description}
+	\item[Four patterns] ~
+	\begin{enumerate}
+		\item heavy tails
+		\begin{center}
+		\includegraphics[width=0.65\columnwidth,trim={2cm 0 0 1cm}]{1.pdf}
+		\end{center}
+		\item right skewed
+\begin{center}
+	\includegraphics[width=0.65\columnwidth,trim={2cm 0 0 1cm}]{2.pdf}
+\end{center}
+		\item left skewed
+\begin{center}
+	\includegraphics[width=0.65\columnwidth,trim={2cm 0 0 1cm}]{3.pdf}
+\end{center}
+		\item light tails
+\begin{center}
+	\includegraphics[width=0.65\columnwidth,trim={2cm 0 0 1cm}]{4.pdf}
+\end{center}
+\end{enumerate}
+\end{description}
+
+\section{Bayesian Statistics}\smallskip \hrule height 1pt \smallskip
+
+\subsection{Introduction to Bayesian Statistics}
+\begin{description}
+
+\item[Prior and Posterior] ~
+\begin{itemize}
+	\item Consider a probability distribution on a parameter space $\Theta$ with some PDF $\pi(\cdot)$: the {\bf prior distribution}.
+	\item Let $X_1,\dots,X_n$ be a sample of $n$ random variables.
+	\item Denote by $L_n(\cdot|\theta)$ the joint PDF of $X_1,\dots,X_n$ conditionally on $\theta$, where $\theta\sim\pi$.
+	\item {\bf Remark:} $L_n(X_1,\dots,X_n|\theta)$ is the likelihood used in the frequentist approach.
+	\item The conditional distribution of $\theta$ given $X_1,\dots,X_n$ is called the {\bf posterior distribution}. Denote by $\pi(\cdot|X_1,\dots,X_n)$ its PDF.
+\end{itemize}
+\item[Bayes' formula] ~
+	$$\pi\left(\theta|X_1,\dots,X_n\right)\propto\pi(\theta)L_n(X_1,\dots,X_n|\theta),\quad\forall\theta\in\Theta$$
+\item[Bernoulli experiment with a Beta prior] ~
+\begin{itemize}[topsep=0pt,noitemsep]
+	\item $p\sim\text{Beta}(a,a)$:
+	$$\pi(p)\propto p^{a-1}(1-p)^{a-1},\quad p\in(0,1)$$
+	\item Given $p$, $X_1,\dots,X_n\stackrel{\text{iid}}{\sim}\text{Ber}(p),$ so
+	$$L_n\left(X_1,\dots,X_n|p\right)=p^{\sum_{i=1}^{n}X_i}\left(1-p\right)^{n-\sum_{i=1}^{n}X_i}.$$
+	\item Hence,
+	$$\pi\left(p|X_1,\dots,X_n\right)\propto p^{a-1+\sum_{i=1}^{n}X_i}\left(1-p\right)^{a-1+n-\sum_{i=1}^{n}X_i}$$
+	\item The posterior distribution is
+	$$\text{Beta}\left(a+\sum_{i=1}^{n}X_i,a+n-\sum_{i=1}^{n}X_i\right)\qquad\text{\bf conjugate prior}$$
+\end{itemize}
+\item[Non-informative Priors] ~
+	\begin{itemize}[topsep=0pt]
+		\item We can still use a Bayesian approach if we have no prior information about the parameter.
+		\item Good candidate: $\pi(\theta)\propto1$, i.e., constant PDF on $\Theta$.
+		\item If $\Theta$ is bounded, this is the uniform prior on $\Theta$.
+		\item If $\Theta$ is unbounded, this does not define a proper PDF on $\Theta$.
+		\item An {\bf improper prior} on $\Theta$ is a measurable, non-negative function $\pi(\cdot)$ defined on $\Theta$ that is not integrable:
+		$$\int\pi(\theta)d\theta=\infty.$$
+		\item In general, one can still define a posterior distribution using an improper prior, using Bayes' formula.
+	\end{itemize}
+\end{description}
+
+\subsection{Jeffreys Prior and Bayesian Confidence Interval}
+
+\begin{description}
+	\item Jeffreys prior is an attempt to incorporate frequentist ideas of likelihood in the Bayesian framework, as well as an example of a {\bf non-informative prior}:
+	$$\pi_J(\theta)\propto\sqrt{\det I(\theta)}$$
+	where $I(\theta)$ is the Fisher information matrix of the statistical model associated with $X_1,\dots,X_n$ in the frequentist approach (provided it exists).
+	\item[Examples] ~
+	\begin{itemize}[topsep=0pt]
+		\item Bernoulli experiment: $\pi_J(\theta)\propto\dfrac{1}{\sqrt{p(1-p)}},\quad p\in(0,1)$: the prior is $\text{Beta}(\frac{1}{2},\frac{1}{2})$
+		\item Gaussian experiment: $\pi_J(\theta)\propto1$, $\theta\in\mathbb{R}$, is an improper prior
+	\end{itemize}
+	\item Jeffreys prior satisfies a {\bf reparametrization invariance principle}: If $\eta$ is a reparametrization of $\theta$ (i.e., $\eta=\phi(\theta)$ for some one-to-one map $\phi$), then the PDF $\tilde{\pi}(\cdot)$ of $\eta$ satisfies:
+	$$\tilde{\pi}(\eta)\propto\sqrt{\det\tilde{I}(\eta)},$$
+	where $\tilde{I}(\eta)$ is the Fisher information of the statistical model parametrized by $\eta$ instead of $\theta$.
+	\item[Bayesian confidence regions] For $\alpha\in(0,1)$, a Bayesian confidence region with level $\alpha$ is a random subset $\mathcal{R}$ of the parameter space $\Theta$, which depends on the sample $X_1,\dots,X_n$, such that
+	$$\mathbb{P}\left[\theta\in\mathcal{R}|X_1,\dots,X_n\right]=1-\alpha.$$
+	\item Note that $\mathcal{R}$ depends on the prior $\pi(\cdot).$
+	\item {\it Bayesian confidence region} and {\it confidence interval} are two {\bf distinct} notions.
+	\item[Bayesian estimation] ~
+	\begin{itemize}
+		\item {\bf Posterior mean:} $\widehat{\theta}^{(\pi)}=\int_{\Theta}\theta\pi\left(\theta|X_1,\dots,X_n\right)d\theta$
+		\item {\bf MAP (maximum a posteriori):} $\widehat{\theta}^\text{\;MAP}=\argmax\limits_{\theta\in\Theta}\pi(\theta|X_1,\dots,X_n)$
+		
+		It is the point that maximizes the posterior distribution, provided it is unique.
+	\end{itemize}
+\end{description}
+
+\section{Linear Regression}\smallskip \hrule height 1pt \smallskip
+
+\begin{description}
+	\item [Modeling Assumptions] $\left(X_i,Y_i\right)$, $i=1,\dots,n$, are i.i.d. from some {\it unknown joint distribution} $\mathbb{P}$. $\mathbb{P}$ can be described entirely by (assuming all exist):
+	\begin{itemize}
+		\item either a joint PDF $h(x,y)$
+		\item the marginal density of $X$, $h(x)=\int h(x,y)dy$ {\bf and} the conditional density $$h(y|x)=\dfrac{h(x,y)}{h(x)}$$
+	\end{itemize}
+	$h(y|x)$ answers all our questions. It contains all the information about $Y$ given $X$.
+	\item [Partial Modeling] We can also describe the distribution only partially, e.g. using
+	\begin{itemize}
+		\item the expectation of $Y$: $\mathbb{E}\left[Y\right]$
+		\item the conditional expectation of $Y$ given $X=x$: $\mathbb{E}\left[X=x\right]$. The function $$x\mapsto f(x):=\mathbb{E}\left[Y|X=x\right]=\int yh(y|x)dy$$ is called {\bf regression function}.
+		\item other possibilities:
+		\begin{itemize}[noitemsep]
+			\item the conditional median: $m(x)$ such that $$\int_{-\infty}^{m(x)}h(y|x)dy=\frac{1}{2}$$
+			\item conditional quantiles
+			\item conditional variance (not information about location)
+		\end{itemize}
+	\end{itemize}
+	\item[Linear Regression] We focus on modeling the regression function
+	$$f(x)=\mathbb{E}\left[Y\rvert X=x\right].$$
+	Restrict to {\it simple} functions. The simplest is
+	$$f(x)=a+bx\qquad\text{linear (or affine) function}$$
+	\item[Probabilistic Analysis] Let $X$ and $Y$ be two r.v. (not neccessarily independent) with two moments and such that $\var\left(X\right)>0.$ The theoretical linear regression of $Y$ on $X$ is the line $x\mapsto a^*+b^*x$, where $$\left(a^*,b^*\right)=\argmin\limits_{(a,b)\in\mathbb{R}^2}\mathbb{E}\left[\left(Y-a-bX\right)^2\right]$$
+	which gives
+	\begin{align*}
+		b^* & = \dfrac{\cov\left(X,Y\right)}{\var\left(X\right)}\\
+		a^* & = \mathbb{E}[Y]-b^*\mathbb{E}[X]=\mathbb{E}[Y]-\dfrac{\cov\left(X,Y\right)}{\var\left(X\right)}\mathbb{E}[X]
+	\end{align*}
+	\item[Noise] The points are not exactly on the line $x\mapsto a^*+b^*x$ if $\var(Y|X=x)>0$. The random variable $\varepsilon=Y-\left(a^*+b^*X\right)$ is called {\bf noise} and satisfies
+	$$Y=a^*+b^*X+\varepsilon,$$
+	with $\mathbb{E}[\varepsilon]=0$ and $\cov(X,\varepsilon)=0$
+	\item[Statistical Problem] In practice, $a^*,b^*$ need to be estimated from data.
+	\item[Least Squares] The {\bf least squares estimator} (LSE) of $(a,b)$ is the minimizer of the sum of squared errors:
+	$$\sum_{i=1}^{n}\left(Y_i-a-bX_i\right)^2.$$
+	Then,
+	\begin{align*}
+		\hat{b} & = \dfrac{\overline{XY}-\overline{X}\,\overline{Y}}{\overline{X^2}-\overline{X}^2}\\
+		\hat{a} & = \overline{Y}-\hat{b}\overline{X}
+	\end{align*}
+\end{description}
+
+\subsection{Multivariate Regression}
+
+\begin{description}
+	\item We have a vector of explanatory variables or {\bf covariates}:
+	$$\mathbf{X}_i=\begin{pmatrix}
+	X_i^{(1)}\\
+	\vdots\\
+	X_i^{(p)}
+	\end{pmatrix}\in\mathbb{R}^p.$$
+	The {\bf response} or {\bf dependent variable} is $Y_i$ with $$Y_i=\mathbf{X}_i^\intercal\boldsymbol{\beta}^*+\varepsilon_i,\quad i=1,\dots,n$$
+	and $\boldsymbol{\beta}_1^*$ is called the {\bf intercept}.
+	\item[Least Squares Estimator] The least squares estimator of $\boldsymbol{\beta}^*$ is the minimizer of the sum of squared errors
+	$$\widehat{\boldsymbol{\beta}}=\argmin\limits_{\beta\in\mathbb{R}^p}\sum_{i=1}^{n}\left(Y_i-\mathbf{X}_i^\intercal\boldsymbol{\beta}\right)^2$$
+	\item[LSE in Matrix Form] ~
+	\begin{itemize}
+		\item Let $\mathbf{Y}=\left(Y_1,\dots,Y_n\right)^\intercal\in\mathbb{R}^n$.
+		\item Let $\mathbb{X}$ be the $n\times p$ matrix whose rows are $\mathbf{X}_1^\intercal,\dots,\mathbf{X}_n^\intercal$. $\mathbb{X}$ is called the {\bf design matrix}.
+		\item Let $\boldsymbol{\varepsilon}=\left(\varepsilon_1,\dots,\varepsilon_n\right)^\intercal\in\mathbb{R}^n$, the unobserved noise. Then,
+		$$\mathbf{Y}=\mathbb{X}\boldsymbol{\beta}^*+\boldsymbol{\varepsilon},\quad\boldsymbol{\beta}^*\;\text{unknown}.$$
+		\item The LSE $\widehat{\boldsymbol{\beta}}$ satisfies
+		$$\widehat{\boldsymbol{\beta}}=\argmin\limits_{\beta\in\mathbb{R}^p}\lVert\mathbf{Y}-\mathbb{X}\boldsymbol{\beta}\rVert_2^2.$$
+	\end{itemize}
+	\item[Closed Form Solution] Assume that rank$(\mathbb{X})=p$. Then,
+	$$\widehat{\boldsymbol{\beta}}=\left(\mathbb{X}^\intercal\mathbb{X}\right)^{-1}\mathbb{X}^\intercal\mathbf{Y}.$$
+	\item[Geometric Interpretation of the LSE] $\mathbb{X}\widehat{\boldsymbol{\beta}}$ is the orthogonal projection of $\mathbf{Y}$ onto the subspace spanned by the columns of $\mathbb{X}$:
+	$$\mathbb{X}\widehat{\boldsymbol{\beta}}=P\mathbf{Y},$$
+	where $P=\mathbb{X}\left(\mathbb{X}^\intercal\mathbb{X}\right)^{-1}\mathbb{X}^\intercal.$
+	\item[Statistical Inference] To make inference, we need more assumptions.
+	\begin{itemize}
+		\item The design matrix $\mathbb{X}$ is deterministic and rank$(\mathbb{X})=p$.
+		\item The model is {\bf homoscedastic}: $\varepsilon_1,\dots,\varepsilon_n$ are i.i.d.
+		\item The noise vector $\boldsymbol{\varepsilon}$ is Gaussian:
+		$$\boldsymbol{\varepsilon}\sim\mathcal{N}_n\left(0,\sigma^2\mathbb{I}_n\right)$$
+		for some known or unknown $\sigma^2>0$.
+	\end{itemize}
+	\item[Properties of LSE] ~
+	\begin{itemize}
+		\item LSE = MSE
+		\item Distribution of $\widehat{\boldsymbol{\beta}}$:
+		$$\widehat{\boldsymbol{\beta}}\sim\mathcal{N}_p\left(\boldsymbol{\beta}^*,\sigma^2\left(\mathbb{X}^\intercal\mathbb{X}\right)^{-1}\right)$$
+		\item Quadratic Risk of $\widehat{\boldsymbol{\beta}}$:
+		$$\mathbb{E}\left[\lVert\widehat{\boldsymbol{\beta}}-\boldsymbol{\beta}\rVert_2^2\right]=\sigma^2\textbf{tr}\left(\left(\mathbb{X}^\intercal\mathbb{X}\right)^{-1}\right)$$
+		\item Prediction Error:
+		$$\mathbb{E}\left[\lVert\mathbf{Y}-\mathbb{X}\widehat{\boldsymbol{\beta}}\rVert_2^2\right]=\sigma^2\left(n-p\right)$$
+		\item Unbiased estimator of $\sigma^2$:
+		$$\widehat{\sigma}^2=\dfrac{\lVert\mathbf{Y}-\mathbb{X}\widehat{\boldsymbol{\beta}}\rVert_2^2}{n-p}=\dfrac{1}{n-p}\sum_{i=1}^{n}\widehat{\varepsilon}_i^{\,2}$$
+	\end{itemize}
+	\item[Significance Tests] ~
+	\begin{itemize}
+		\item Test whether the $j$\textsuperscript{th} explanatory variable is significant in the linear regression.
+		\item $H_0:\beta_j=0$ v.s. $H_1:\beta\neq0$
+		\item If $\gamma_j$ ($\gamma_j>0$) is the $j$\textsuperscript{th} diagonal coefficient of $\left(\mathbb{X}^\intercal\mathbb{X}\right)^{-1}$:
+		$$\dfrac{\widehat{\beta}_j-\beta_j}{\sqrt{\widehat{\sigma}^2\gamma_j}}\sim t_{n-p}$$
+		\item Let $T_n^{(j)}=\dfrac{\widehat{\beta}_j}{\sqrt{\widehat{\sigma}^2\gamma_j}}$.
+		\item Test with non-asymptotic level $\alpha\in(0,1)$:
+		$$R_{j,\alpha}=\left\{\left|T_n^{(j)}\right|>q_{\frac{\alpha}{2}}\left(t_{n-p}\right)\right\}$$
+		where $q_{\frac{\alpha}{2}}\left(t_{n-p}\right)$ is the ($1-\frac{\alpha}{2}$)-quantile of $t_{n-p}$.
+	\end{itemize}
+	\item[Bonferroni's test] Test whether a {\bf group} of explanatory variables is significant in the linear regression.
+	\begin{itemize}
+		\item $H_0:\beta_j=0\;\forall j\in S$ v.s. $H_1:\exists j\in S, \beta_j\neq0$ where $S\subseteq\{1,\dots,p\}$.
+		\item Bonferroni's test:
+		$$R_{S,\alpha}=\bigcup\limits_{j\in S}R_{j,\frac{\alpha}{k}},\quad\text{where }k=|S|$$
+	\end{itemize}
+\end{description}
+
+\section{Generalized Linear Model}\smallskip \hrule height 1pt \smallskip
+
+\begin{description}
+	\item[Generalization]  A generalized linear model (GLM) generalizes normal linear regression models in the following directions:
+	\begin{enumerate}
+		\item {\bf Random component}: $Y|X=x\sim$ some distribution
+		\item {\bf Regression function}: $$g\left(\mu(x)\right)=x^\intercal\beta$$
+		where $g$ is called {\bf link function} and $\mu(x)=\mathbb{E}\left[Y|X=x\right]$ is the {\bf regression function}.
+	\end{enumerate}
+\end{description}
+
+\subsection{Exponential Family}
+
+\begin{description}
+	\item A family of distribution $\left\{\mathbb{P}_\theta:\theta\in\Theta\right\}$, $\Theta\subset\mathbb{R}^k$ is said to be a {\bf $k$-parameter exponential family} on $\mathbb{R}^q$, if there exist real-valued functions
+	\begin{itemize}
+		\item $\eta_1,\dots,\eta_k$ and $B(\theta)$
+		\item $T_1,\dots,T_k$, and $h(y)\in\mathbb{R}^q$
+	\end{itemize}
+	such that the density function of $\mathbb{P}_\theta$ can be written as
+	$$f_\theta(y)=\exp\left[\sum_{i=1}^{k}\eta_i(\theta)T_i(y)-B(\theta)\right]h(y)$$
+	\item[Examples of discrete distributions] The following distributions form {\bf discrete} exponential families of distributions with PMF:
+	\begin{itemize}
+		\item Bernoulli ($p$): $p^y(1-p)^{1-y}$, $y\in\{0,1\}$
+		\item Poisson ($\lambda$): $\dfrac{\lambda^y}{y!}e^{-\lambda}$, $y=0,1,\dots$
+	\end{itemize}
+	\item[Examples of continuous distributions] The following distributions form {\bf continuous} exponential families of distributions with PDF:
+	\begin{itemize}
+		\item Gamma ($a,b$): $\dfrac{1}{\Gamma(a)b^a}y^{a-1}e^{-\frac{y}{b}}$
+		\item Inverse Gamma ($\alpha,\beta$): $\dfrac{\beta^\alpha}{\Gamma(\alpha)}y^{-\alpha-1}e^{-\frac{\beta}{y}}$
+		\item Inverse Gaussian ($\mu,\sigma^2$): $\sqrt{\dfrac{\sigma^2}{2\pi y^3}}\exp\left(-\dfrac{\sigma^2(y-\mu)^2}{2\mu^2y}\right)$
+	\end{itemize}
+	\item[One-parameter Canonical Exponential Family] ~
+	$$f_\theta(y)=\exp\left(\dfrac{y\theta-b(\theta)}{\phi}+c(y,\phi)\right)$$
+	for some known functions $b(\theta)$ and $c(y,\phi)$.
+	\begin{itemize}
+		\item If $\phi$ is known, this is a one-parameter exponential family with $\theta$ being the {\bf canonical parameter}.
+		\item If $\phi$ is unknown, this may/may not be a two-parameter exponential family.
+		\item $\phi$ is called {\bf dispersion parameter}.
+	\end{itemize}
+	\item[Expected value] Note that
+	$$\ell(\theta)=\dfrac{Y\theta-b(\theta)}{\phi}+c\left(Y;\phi\right),$$
+	which leads to
+	$$\mathbb{E}\left[Y\right]=b'(\theta).$$
+	\item[Variance] ~
+	$$\var(Y)=b''(\theta)\cdot\phi$$
+	\vspace*{1pt}
+	
+	\item In GLM, we have $Y|X=x\sim$ distribution in exponential family. Then,
+	$$\mathbb{E}\left[Y|X=x\right]=f\left(X^\intercal\beta\right)$$
+	\item[Link function] $\beta$ is the parameter of interest. A {\bf link function} $g$ relates the linear predictor $X^\intercal\beta$ to the mean parameter $\mu$,
+	$$X^\intercal\beta=g(\mu)=g\left(\mu(X)\right).$$
+	$g$ is required to be monotone increasing and differentiable
+	$$\mu=g^{-1}\left(X^\intercal\beta\right)$$
+	\item[Canonical Link] The function $g$ that links the mean $\mu$ to the canonical parameter $\theta$ is called {\bf canonical link}:
+	$$g(\mu)=\theta.$$
+	Since $\mu=b'(\theta)$, the canonical link is given by
+	$$g(\mu)=(b')^{-1}(\mu).$$
+	If $\phi>0$, the canonical link function is strictly increasing.
+	\item[Example] Bernoulli distribution
+	\begin{align*}
+		p^y(1-p)^{1-y} & = \exp\left(y\log\left(\dfrac{p}{1-p}\right)+\log(1-p)\right)\\
+		& = \exp\left(y\theta-\log(1+e^\theta)\right)
+	\end{align*}
+	Hence, $\theta=\log\left(\dfrac{p}{1-p}\right)$ and $b(\theta)=\log\left(1+e^\theta\right).$
+	$$b'(\theta)=\dfrac{e^\theta}{1+e^\theta}=\mu\quad\iff\quad\theta=\log\left(\dfrac{\mu}{1-\mu}\right)$$
+	The canonical link for the Bernoulli distribution is the {\bf logit link}.
+\end{description}
+
+\subsubsection{Model and Notation}
+\begin{description}
+	\item Let $(X_i,Y_i)\in\mathbb{R}^p\times\mathbb{R}$, $i=1,\dots,n$ be independent random pairs such that the conditional distribution of $Y_i$ given $X_i=x_i$ has density in the canonical exponential family:
+	$$f_{\theta_i}(y_i)=\exp\left[\dfrac{y_i\theta_i-b(\theta_i)}{\phi}+c(y_i,\phi)\right]$$
+	\item[Back to $\beta$:] Given a link function $g$, note the following relationship between $\beta$ and $\theta$:
+	$$\theta_i=(b')^{-1}(\mu_i)=(b')^{-1}\left(g^{-1}(X_i^\intercal\beta)\right)\equiv h\left(X_i^\intercal\beta\right)$$
+	where $h$ is defined as $$h=(b')^{-1}\circ g^{-1}=(g\circ b')^{-1}.$$
+	If $g$ is the {\it canonical link function}, $h$ is the {\bf identity} $g=(b')^{-1}$.
+	\item[Log-likelihood] The log-likelihood is given by
+	\begin{align*}
+		\ell_n\left(\mathbf{Y},\mathbb{X},\beta\right) & =\sum_{i}\dfrac{Y_i\theta_i-b(\theta_i)}{\phi}+\text{constant}\\
+		& = \sum_{i}\dfrac{Y_ih\left(X_i^\intercal\beta\right)-b\left(h\left(X_i^\intercal\beta\right)\right)}{\phi}+\text{constant}
+	\end{align*}
+	When we use the {\it canonical link function}, we obtain the expression
+	$$\ell_n\left(\mathbf{Y},\mathbb{X},\beta\right)=\sum_{i}\dfrac{Y_iX_i^\intercal\beta-b\left(X_i^\intercal\beta\right)}{\phi}+\text{constant}$$
+	\item[Strict concavity] The log-likelihood $\ell(\theta)$ is {\bf strictly concave} (if rank$(\mathbb{X})=p$) using the canonical function when $\phi>0$. As a consequence, the maximum likelihood estimator is unique.
+	\item On the other hand, if another parametrization is used, the likelihood function may not be strictly concaving leading to {\it several local maxima}.
+\end{description}
+
+\section{Recommended Resources} \smallskip \hrule height 1pt \smallskip
+
+\bigskip
+
+\begin{itemize}
+\item Probability and Statistics (DeGroot and Schervish)
+\item Mathematical Statistics and Data Analysis (Rice)
+\item Fundamentals of Statistics [Lecture Slides] (\url{http://www.edx.org})
+\end{itemize}
+
+\begin{center}\emph{Please share this cheatsheet with friends!}\end{center}
+
+\end{multicols*}
+
+
+
+\end{document}
